@@ -80,9 +80,9 @@ public class FXMLController {
     		return;
     	}
     	if (nScelto < nEstratto)
-    		txtRisultato.appendText("Errato. Il numero inserito, " + nScelto + " è MINORE di quello giusto.\n");
+    		txtRisultato.appendText("Errato. Il numero inserito, " + nScelto + ", è MINORE di quello giusto.\n");
     	else
-    		txtRisultato.appendText("Errato. Il numero inserito, " + nScelto + " è MAGGIORE di quello giusto.\n");
+    		txtRisultato.appendText("Errato. Il numero inserito, " + nScelto + ", è MAGGIORE di quello giusto.\n");
     	txtInput.clear();
     }
 
