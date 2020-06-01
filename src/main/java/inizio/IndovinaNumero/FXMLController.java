@@ -2,6 +2,8 @@ package inizio.IndovinaNumero;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import inizio.model.Model;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
@@ -9,6 +11,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 
 public class FXMLController {
+	
+	Model model;
 
 	private final int tmax=8, nmax=100;
 	private int tRimasti, nEstratto, nScelto;
@@ -93,6 +97,11 @@ public class FXMLController {
         assert txtInput != null : "fx:id=\"txtInput\" was not injected: check your FXML file 'Scene.fxml'.";
         assert txtRisultato != null : "fx:id=\"txtRisultato\" was not injected: check your FXML file 'Scene.fxml'.";
     }
+    
+    public void setModel (Model model) {
+    	this.model = model;
+    }
+    
 }
 
 
