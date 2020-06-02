@@ -1,8 +1,12 @@
 package inizio.model;
 
 import java.security.InvalidParameterException;
+import java.util.*;
 
 public class Model {
+	
+	Set<Integer> numeriInseriti = new HashSet<>();
+	
 	private final int tmax=8, nmax=100;
 	private int tRimasti, nEstratto, nScelto;
 	
@@ -15,10 +19,12 @@ public class Model {
 		if (tentativoValido() == true) {
 			if (nScelto < nEstratto) {
 				tRimasti--;
+				numeriInseriti.add(Integer.valueOf(nScelto));
 				return -1;
 			}
 			if (nScelto > nEstratto) {
 				tRimasti--;
+				numeriInseriti.add(Integer.valueOf(nScelto));
 				return 1;
 			}
 			if (nScelto == nEstratto) {
@@ -26,6 +32,8 @@ public class Model {
 				return 0;
 			}
 		}
+		else
+			return 2;
 		return 0;
 	}
 	
@@ -38,6 +46,8 @@ public class Model {
 	public boolean tentativoValido () {
 		if (nScelto<1 || nScelto>100)
 			throw new InvalidParameterException("Il numero inserito è fuori dall'intervallo 1-" + nmax + "\n");
+		if (this.numeriInseriti.contains(Integer.valueOf(nScelto)) == true)
+			return false;
 		return true;
 	}
 
@@ -63,6 +73,14 @@ public class Model {
 
 	public void settRimasti(int tRimasti) {
 		this.tRimasti = tRimasti;
+	}
+
+	public int getnEstratto() {
+		return nEstratto;
+	}
+
+	public Set<Integer> getNumeriInseriti() {
+		return numeriInseriti;
 	}
 	
 }

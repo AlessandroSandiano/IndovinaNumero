@@ -42,12 +42,13 @@ public class FXMLController {
     	txtInput.setPromptText("Inserisci un numero tra 1 e " + model.getNmax());
     	txtRisultato.clear();
     	txtInput.clear();
+    	model.getNumeriInseriti().clear();
     }
 
     @FXML
     void handleProva(ActionEvent event) {
     	int tentativo;
-    	txtInput.setPromptText("Inserisci un numero tra 1 e " + model.getNmax());
+    	txtInput.setPromptText("Inserisci un numero tra 1 e " + model.getNmax() + " che non hai ancora usato");
     	txtTentativi.setText(Integer.valueOf(model.gettRimasti()).toString());
     	if (txtInput.getText().length() == 0) {
     		txtRisultato.appendText("Non è stato inserito alcun numero\n");
@@ -80,6 +81,12 @@ public class FXMLController {
     	
     	if (tentativo == 0) {
     		txtRisultato.appendText("Hai vinto!\nTentativi efettuati: " + (model.getTmax() - model.gettRimasti()) + "\nClicca su Nuova Partita per cominciare di nuovo!\n");
+    		ctrlStart.setDisable(true);
+    		return;
+    	}
+    	
+    	if (tentativo == 2) {
+    		txtRisultato.appendText("Questo numero è già stato inserito.\nHai perso.\nIl numero segreto era " + model.getnEstratto() + ".\nClicca su Nuova Partita per riprovare!\n");
     		ctrlStart.setDisable(true);
     		return;
     	}

@@ -10,7 +10,6 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="inizio.IndovinaNumero.FXMLController">
    <top>
       <Label text="Indovina il numero" BorderPane.alignment="CENTER">
@@ -43,7 +42,7 @@
             </HBox>
             <HBox fx:id="ctrlStart" disable="true">
                <children>
-                  <TextField fx:id="txtInput" prefWidth="200.0">
+                  <TextField fx:id="txtInput" prefWidth="325.0">
                      <HBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </HBox.margin>
@@ -59,7 +58,7 @@
       </VBox>
    </center>
    <bottom>
-      <TextArea fx:id="txtRisultato" disable="true" editable="false" BorderPane.alignment="CENTER">
+      <TextArea fx:id="txtRisultato" editable="false" BorderPane.alignment="CENTER">
          <BorderPane.margin>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </BorderPane.margin>
