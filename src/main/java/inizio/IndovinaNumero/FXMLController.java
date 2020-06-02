@@ -1,6 +1,7 @@
 package inizio.IndovinaNumero;
 
 import java.net.URL;
+import java.security.InvalidParameterException;
 import java.util.ResourceBundle;
 
 import inizio.model.Model;
@@ -13,9 +14,6 @@ import javafx.scene.layout.HBox;
 public class FXMLController {
 	
 	Model model;
-
-	private final int tmax=8, nmax=100;
-	private int tRimasti, nEstratto, nScelto;
 	
     @FXML
     private ResourceBundle resources;
@@ -37,56 +35,63 @@ public class FXMLController {
 
     @FXML
     void handleNuovaPartita(ActionEvent event) {
-    	txtTentativi.setText(Integer.valueOf(tmax).toString());
-    	tRimasti = tmax;
-    	//castando un double in int si ottiene sempre la parte intera inferiore del numero in questione
-    	nEstratto = (int)(Math.random()*nmax) + 1;
+    	model.settRimasti(model.getTmax());
+    	txtTentativi.setText(Integer.valueOf(model.getTmax()).toString());
     	txtTentativi.setDisable(false);
     	ctrlStart.setDisable(false);
-    	txtInput.setPromptText("Inserisci un numero tra 1 e " + nmax);
+    	txtInput.setPromptText("Inserisci un numero tra 1 e " + model.getNmax());
     	txtRisultato.clear();
     	txtInput.clear();
     }
 
     @FXML
     void handleProva(ActionEvent event) {
-    	txtInput.setPromptText("Inserisci un numero tra 1 e " + nmax);
-    	txtTentativi.setText(Integer.valueOf(tRimasti).toString());
+    	int tentativo;
+    	txtInput.setPromptText("Inserisci un numero tra 1 e " + model.getNmax());
+    	txtTentativi.setText(Integer.valueOf(model.gettRimasti()).toString());
     	if (txtInput.getText().length() == 0) {
     		txtRisultato.appendText("Non è stato inserito alcun numero\n");
     		txtInput.clear();
     		return;
     	}
     	try {
-    		nScelto = Integer.parseInt(txtInput.getText());
+    		model.setnScelto(Integer.parseInt(txtInput.getText()));
     	}
     	catch (NumberFormatException nfe) {
     		txtRisultato.appendText("Errore di inserimento!\n");
     		txtInput.clear();
     		return;
     	}
-    	if ((nScelto < 1) || (nScelto > nmax)) {
-    		txtRisultato.appendText("Il numero inserito è fuori dall'intervallo 1-" + nmax + "\n");
+    	try {tentativo = model.tentativo();
+    	}
+    	catch (InvalidParameterException ipe) {
+    		txtRisultato.appendText(ipe.getMessage());
     		txtInput.clear();
     		return;
     	}
-    	tRimasti--;
-    	txtTentativi.setText(Integer.valueOf(tRimasti).toString());
-    	if (nScelto == nEstratto) {
-    		txtRisultato.appendText("Hai vinto!\nTentativi efettuati: " + (tmax - tRimasti) + "\nClicca su Nuova Partita per cominciare di nuovo!\n");
+    	
+    	if (tentativo == -1)
+    		txtRisultato.appendText("Errato. Il numero inserito, " + model.getnScelto() + ", è MINORE di quello giusto.\n");
+    	
+    	if (tentativo == 1)
+    		txtRisultato.appendText("Errato. Il numero inserito, " + model.getnScelto() + ", è MAGGIORE di quello giusto.\n");
+    	
+    	txtTentativi.setText(Integer.valueOf(model.gettRimasti()).toString());
+    	
+    	if (tentativo == 0) {
+    		txtRisultato.appendText("Hai vinto!\nTentativi efettuati: " + (model.getTmax() - model.gettRimasti()) + "\nClicca su Nuova Partita per cominciare di nuovo!\n");
     		ctrlStart.setDisable(true);
     		return;
     	}
     	
-    	if (tRimasti == 0) {
-    		txtRisultato.appendText("Hai perso. Il numero segreto era " + nEstratto + "\nClicca su Nuova Partita per rifarti!\n");
+    	try {model.terminata();
+    	}
+    	catch (IllegalStateException ise) {
+    		txtRisultato.appendText(ise.getMessage());
     		ctrlStart.setDisable(true);
     		return;
     	}
-    	if (nScelto < nEstratto)
-    		txtRisultato.appendText("Errato. Il numero inserito, " + nScelto + ", è MINORE di quello giusto.\n");
-    	else
-    		txtRisultato.appendText("Errato. Il numero inserito, " + nScelto + ", è MAGGIORE di quello giusto.\n");
+    	
     	txtInput.clear();
     }
 
